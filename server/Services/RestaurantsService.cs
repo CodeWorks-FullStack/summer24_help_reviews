@@ -13,7 +13,7 @@ public class RestaurantsService
 
   internal List<Restaurant> GetAllRestaurants()
   {
-    List<Restaurant> restaurants = _repository.GetAllRestaurants();
+    List<Restaurant> restaurants = _repository.GetAll();
     return restaurants;
   }
 }
