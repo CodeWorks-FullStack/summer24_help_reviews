@@ -31,13 +31,34 @@ public class RestaurantsService
     return $"{restaurantToDestroy.Name} has been deleted!";
   }
 
-  internal List<Restaurant> GetAllRestaurants()
+  private List<Restaurant> GetAllOpenRestaurants()
   {
     List<Restaurant> restaurants = _repository.GetAll();
     return restaurants;
   }
 
-  internal Restaurant GetRestaurantById(int restaurantId)
+  private List<Restaurant> GetAllRestaurants(string userId)
+  {
+    List<Restaurant> restaurants = _repository.GetAll(userId);
+    return restaurants;
+  }
+
+
+  internal List<Restaurant> GetRestaurants(string userId)
+  {
+    // if the user is not logged in
+    if (userId == null)
+    {
+      // NOTE the sql does not return shutdown restaurants
+      return GetAllOpenRestaurants();
+    }
+
+    // if the user is logged in
+    return GetAllRestaurants(userId);
+  }
+
+
+  private Restaurant GetRestaurantById(int restaurantId)
   {
     Restaurant restaurant = _repository.GetById(restaurantId);
 
@@ -66,5 +87,18 @@ public class RestaurantsService
 
     Restaurant updatedRestaurant = _repository.Update(restaurantToUpdate);
     return updatedRestaurant;
+  }
+
+  internal Restaurant GetRestaurantById(int restaurantId, string userId)
+  {
+    Restaurant restaurant = GetRestaurantById(restaurantId);
+
+    // If you aren't the owner of the restaurant and it is shut down
+    if (restaurant.CreatorId != userId && restaurant.IsShutdown == true)
+    {
+      throw new Exception($"No restaurant found with the id of {restaurantId} 😉");
+    }
+
+    return restaurant;
   }
 }

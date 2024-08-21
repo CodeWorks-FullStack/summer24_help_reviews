@@ -14,11 +14,14 @@ public class RestaurantsController : ControllerBase
   }
 
   [HttpGet]
-  public ActionResult<List<Restaurant>> GetAllRestaurants()
+  // Not an authorized route, but we can still try and get the user making the request
+  public async Task<ActionResult<List<Restaurant>>> GetAllRestaurants()
   {
     try
     {
-      List<Restaurant> restaurants = _restaurantsService.GetAllRestaurants();
+      Account userInfo = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
+      // NOTE elvis operator is necessary if this is not an authorized route
+      List<Restaurant> restaurants = _restaurantsService.GetRestaurants(userInfo?.Id);
       return Ok(restaurants);
     }
     catch (Exception exception)
@@ -45,11 +48,12 @@ public class RestaurantsController : ControllerBase
   }
 
   [HttpGet("{restaurantId}")]
-  public ActionResult<Restaurant> GetRestaurantById(int restaurantId)
+  public async Task<ActionResult<Restaurant>> GetRestaurantById(int restaurantId)
   {
     try
     {
-      Restaurant restaurant = _restaurantsService.GetRestaurantById(restaurantId);
+      Account userInfo = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
+      Restaurant restaurant = _restaurantsService.GetRestaurantById(restaurantId, userInfo?.Id);
       return Ok(restaurant);
     }
     catch (Exception exception)

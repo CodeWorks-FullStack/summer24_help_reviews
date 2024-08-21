@@ -63,6 +63,21 @@ public class RestaurantsRepository : IRepository<Restaurant>
 
     return restaurants;
   }
+  // NOTE this is an overload. if no string is passed to getAll, the above method runs. If a string is passed, the below method runs
+  internal List<Restaurant> GetAll(string userId)
+  {
+    string sql = @"
+    SELECT
+    restaurants.*,
+    accounts.*
+    FROM restaurants
+    JOIN accounts ON accounts.id = restaurants.creatorId
+    WHERE restaurants.isShutdown = false OR restaurants.creatorId = @userId;";
+
+    List<Restaurant> restaurants = _db.Query<Restaurant, Profile, Restaurant>(sql, JoinCreator, new { userId }).ToList();
+
+    return restaurants;
+  }
 
   public Restaurant GetById(int restaurantId)
   {
@@ -101,6 +116,7 @@ public class RestaurantsRepository : IRepository<Restaurant>
 
     return restaurant;
   }
+
 
   private Restaurant JoinCreator(Restaurant restaurant, Profile profile)
   {
