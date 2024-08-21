@@ -27,19 +27,26 @@ public class RestaurantsRepository : IRepository<Restaurant>
     WHERE restaurants.id = LAST_INSERT_ID();";
 
 
-    Restaurant restaurant = _db.Query<Restaurant, Profile, Restaurant>(sql,
-    (restaurant, profile) =>
-    {
-      restaurant.Creator = profile;
-      return restaurant;
-    }, restaurantData).FirstOrDefault();
+    Restaurant restaurant = _db.Query<Restaurant, Profile, Restaurant>(sql, JoinCreator, restaurantData).FirstOrDefault();
 
     return restaurant;
   }
 
   public void Delete(int restaurantId)
   {
-    throw new NotImplementedException();
+    string sql = "DELETE FROM restaurants WHERE id = @restaurantId LIMIT 1;";
+
+    int rowsAffected = _db.Execute(sql, new { restaurantId });
+
+    switch (rowsAffected)
+    {
+      case 1:
+        break;
+      case 0:
+        throw new Exception("DELETE FAILED");
+      default:
+        throw new Exception("PROBABLY DELETED EVERYTHING");
+    }
   }
 
   public List<Restaurant> GetAll()
@@ -51,24 +58,53 @@ public class RestaurantsRepository : IRepository<Restaurant>
     FROM restaurants
     JOIN accounts ON accounts.id = restaurants.creatorId;";
 
-    List<Restaurant> restaurants = _db.Query<Restaurant, Profile, Restaurant>(sql,
-    (restaurant, profile) =>
-    {
-      restaurant.Creator = profile;
-      return restaurant;
-    }).ToList();
+    List<Restaurant> restaurants = _db.Query<Restaurant, Profile, Restaurant>(sql, JoinCreator).ToList();
 
     return restaurants;
   }
 
   public Restaurant GetById(int restaurantId)
   {
-    throw new NotImplementedException();
+    string sql = @"
+    SELECT
+    restaurants.*,
+    accounts.*
+    FROM restaurants
+    JOIN accounts ON accounts.id = restaurants.creatorId
+    WHERE restaurants.id = @restaurantId;";
+
+    Restaurant restaurant = _db.Query<Restaurant, Profile, Restaurant>(sql, JoinCreator, new { restaurantId }).FirstOrDefault();
+
+    return restaurant;
   }
 
   public Restaurant Update(Restaurant restaurantData)
   {
-    throw new NotImplementedException();
+    string sql = @"
+    UPDATE restaurants
+    SET
+    name = @Name,
+    description = @Description,
+    imgUrl = @ImgUrl,
+    isShutDown = @IsShutDown
+    WHERE id = @Id LIMIT 1;
+    
+    SELECT
+    restaurants.*,
+    accounts.*
+    FROM restaurants
+    JOIN accounts ON accounts.id = restaurants.creatorId
+    WHERE restaurants.id = @Id;";
+
+    Restaurant restaurant = _db.Query<Restaurant, Profile, Restaurant>(sql, JoinCreator, restaurantData).FirstOrDefault();
+
+    return restaurant;
+  }
+
+  private Restaurant JoinCreator(Restaurant restaurant, Profile profile)
+  {
+    restaurant.Creator = profile;
+    return restaurant;
   }
 }
 
