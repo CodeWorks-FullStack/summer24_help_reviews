@@ -37,7 +37,7 @@ public class RestaurantsRepository : IRepository<Restaurant>
     return restaurant;
   }
 
-  public void Delete(int id)
+  public void Delete(int restaurantId)
   {
     throw new NotImplementedException();
   }
@@ -61,12 +61,12 @@ public class RestaurantsRepository : IRepository<Restaurant>
     return restaurants;
   }
 
-  public Restaurant GetById(int id)
+  public Restaurant GetById(int restaurantId)
   {
     throw new NotImplementedException();
   }
 
-  public Restaurant Update(Restaurant data)
+  public Restaurant Update(Restaurant restaurantData)
   {
     throw new NotImplementedException();
   }
