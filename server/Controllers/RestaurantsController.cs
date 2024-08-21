@@ -26,4 +26,21 @@ public class RestaurantsController : ControllerBase
       return BadRequest(exception.Message);
     }
   }
+
+  [HttpPost]
+  [Authorize]
+  public async Task<ActionResult<Restaurant>> CreateRestaurant([FromBody] Restaurant restaurantData)
+  {
+    try
+    {
+      Account userInfo = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
+      restaurantData.CreatorId = userInfo.Id;
+      Restaurant restaurant = _restaurantsService.CreateRestaurant(restaurantData);
+      return Ok(restaurant);
+    }
+    catch (Exception exception)
+    {
+      return BadRequest(exception.Message);
+    }
+  }
 }

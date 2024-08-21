@@ -12,23 +12,32 @@ public class RestaurantsRepository : IRepository<Restaurant>
     _db = db;
   }
 
-  public Restaurant Create()
+  public Restaurant Create(Restaurant restaurantData)
   {
-    throw new NotImplementedException();
+    string sql = @"
+    INSERT INTO
+    restaurants(name, description, imgUrl, isShutdown, creatorId)
+    VALUES(@Name, @Description, @ImgUrl, @IsShutdown, @CreatorId);
+
+    SELECT
+    restaurants.*,
+    accounts.*
+    FROM restaurants
+    JOIN accounts ON accounts.id = restaurants.creatorId
+    WHERE restaurants.id = LAST_INSERT_ID();";
+
+
+    Restaurant restaurant = _db.Query<Restaurant, Profile, Restaurant>(sql,
+    (restaurant, profile) =>
+    {
+      restaurant.Creator = profile;
+      return restaurant;
+    }, restaurantData).FirstOrDefault();
+
+    return restaurant;
   }
 
-  public void Delete()
-  {
-    throw new NotImplementedException();
-  }
-
-
-  public Restaurant GetById()
-  {
-    throw new NotImplementedException();
-  }
-
-  public Restaurant Update()
+  public void Delete(int id)
   {
     throw new NotImplementedException();
   }
@@ -50,6 +59,16 @@ public class RestaurantsRepository : IRepository<Restaurant>
     }).ToList();
 
     return restaurants;
+  }
+
+  public Restaurant GetById(int id)
+  {
+    throw new NotImplementedException();
+  }
+
+  public Restaurant Update(Restaurant data)
+  {
+    throw new NotImplementedException();
   }
 }
 
