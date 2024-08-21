@@ -1,0 +1,9 @@
+version: '3'
+services:
+  app:
+    image: your-dockerhub-username/help_reviews:latest
+    restart: unless-stopped
+    env_file:
+      - help_reviews-env
+    ports:
+      - "7045:80"
