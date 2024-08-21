@@ -1,5 +1,6 @@
 <script setup>
 import { AppState } from '@/AppState.js';
+import RestaurantCard from '@/components/globals/RestaurantCard.vue';
 import { restaurantsService } from '@/services/RestaurantsService.js';
 import Pop from '@/utils/Pop.js';
 import { computed, onMounted } from 'vue';
@@ -19,7 +20,13 @@ async function getRestaurants() {
 </script>
 
 <template>
-  <h1>Restaurants</h1>
+  <div class="container">
+    <section class="row">
+      <div v-for="restaurant in restaurants" :key="restaurant.id" class="col-12 col-md-4">
+        <RestaurantCard :restaurant="restaurant" />
+      </div>
+    </section>
+  </div>
 </template>
 
 <style scoped lang="scss"></style>
