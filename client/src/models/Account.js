@@ -1,36 +1,11 @@
-export class Account {
-  /**
-   * @type {string}
-   */
-  id;
+import { Profile } from "./Profile.js";
 
-  /**
-   * @type {string}
-   */
-  email;
+export class Account extends Profile {
 
-  /**
-   * @type {string}
-   */
-  name;
-
-  /**
-   * @type {string}
-   */
-  picture;
-
-  /**
-   * @param {Object} data
-   * @param {string} data.id
-   * @param {string} data.email
-   * @param {string} data.name
-   * @param {string} data.picture
-  */
-  constructor({ id, email, name, picture }) {
-    this.id = id;
-    this.email = email;
-    this.name = name;
-    this.picture = picture;
+  constructor(data) {
+    super(data)
+    this.email = data.email;
     // TODO add additional properties if needed
   }
 }
+
