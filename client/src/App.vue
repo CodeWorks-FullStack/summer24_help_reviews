@@ -1,6 +1,6 @@
 <script setup>
+import { AppState } from './AppState.js';
 import Navbar from './components/Navbar.vue'
-
 
 </script>
 
@@ -18,6 +18,7 @@ import Navbar from './components/Navbar.vue'
 
 <style lang="scss">
 @import '@/assets/scss/main.scss';
+
 :root {
   --main-height: calc(100vh - 32px - 64px);
 }

@@ -1,8 +1,10 @@
 <script setup>
+import { AppState } from '@/AppState.js';
 import { restaurantsService } from '@/services/RestaurantsService.js';
 import Pop from '@/utils/Pop.js';
-import { onMounted } from 'vue';
+import { computed, onMounted } from 'vue';
 
+const restaurants = computed(() => AppState.restaurants)
 
 onMounted(getRestaurants)
 
