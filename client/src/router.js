@@ -13,6 +13,11 @@ const routes = [
     beforeEnter: authSettled // see if the user is logged in BEFORE loading the page
   },
   {
+    path: '/restaurants/:restaurantId',
+    name: 'Restaurant Details',
+    component: loadPage('RestaurantDetailsPage')
+  },
+  {
     path: '/about',
     name: 'About',
     component: loadPage('AboutPage')
