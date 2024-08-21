@@ -1,7 +1,3 @@
-<template>
-  <i :class="iconClass"></i>
-</template>
-
 <script setup>
 import { computed } from 'vue';
 
@@ -22,6 +18,10 @@ const props = defineProps({
 
 const iconClass = computed(() => `mdi mdi-${props.name}`);
 </script>
+
+<template>
+  <i :class="iconClass"></i>
+</template>
 
 <style scoped lang="scss">
 i {

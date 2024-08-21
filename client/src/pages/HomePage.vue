@@ -21,8 +21,8 @@ async function getRestaurants() {
 
 <template>
   <div class="container">
-    <section class="row">
-      <div v-for="restaurant in restaurants" :key="restaurant.id" class="col-12 col-md-4">
+    <section class="row my-3">
+      <div v-for="restaurant in restaurants" :key="restaurant.id" class="col-12 col-md-4 mb-3">
         <RestaurantCard :restaurant="restaurant" />
       </div>
     </section>
