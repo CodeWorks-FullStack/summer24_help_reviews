@@ -1,3 +1,4 @@
+
 namespace help_reviews.Services;
 
 public class RestaurantsService
@@ -8,5 +9,11 @@ public class RestaurantsService
   public RestaurantsService(RestaurantsRepository repository)
   {
     _repository = repository;
+  }
+
+  internal List<Restaurant> GetAllRestaurants()
+  {
+    List<Restaurant> restaurants = _repository.GetAllRestaurants();
+    return restaurants;
   }
 }
