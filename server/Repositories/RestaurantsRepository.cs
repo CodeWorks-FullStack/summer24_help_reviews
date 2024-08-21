@@ -56,7 +56,8 @@ public class RestaurantsRepository : IRepository<Restaurant>
     restaurants.*,
     accounts.*
     FROM restaurants
-    JOIN accounts ON accounts.id = restaurants.creatorId;";
+    JOIN accounts ON accounts.id = restaurants.creatorId
+    WHERE restaurants.isShutdown = false;";
 
     List<Restaurant> restaurants = _db.Query<Restaurant, Profile, Restaurant>(sql, JoinCreator).ToList();
 

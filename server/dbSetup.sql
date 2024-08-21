@@ -41,6 +41,8 @@ VALUES
   );
 
 SELECT
-  *
+  r.*,
+  a.*
 FROM
-  restaurants;
+  restaurants r
+  JOIN accounts a;
