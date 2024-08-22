@@ -1,5 +1,6 @@
 <script setup>
 import { AppState } from '@/AppState.js';
+import ReportCard from '@/components/globals/ReportCard.vue';
 import { reportsService } from '@/services/ReportsService.js';
 import { restaurantsService } from '@/services/RestaurantsService.js';
 import Pop from '@/utils/Pop.js';
@@ -13,6 +14,8 @@ const router = useRouter()
 const restaurant = computed(() => AppState.activeRestaurant)
 
 const account = computed(() => AppState.account)
+
+const reports = computed(() => AppState.reports)
 
 watch(() => route.params.restaurantId, () => {
 
@@ -111,6 +114,14 @@ async function updateRestaurant(restaurantId) {
             </div>
           </div>
         </div>
+      </div>
+    </section>
+    <section class="row">
+      <div class="col-12">
+        <h2>Reports for <span class="text-success">{{ restaurant.name }}</span></h2>
+      </div>
+      <div v-for="report in reports" :key="report.id" class="col-12">
+        <ReportCard :report="report" />
       </div>
     </section>
   </div>
