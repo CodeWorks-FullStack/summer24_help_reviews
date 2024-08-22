@@ -1,5 +1,7 @@
 <script setup>
 import { AppState } from '@/AppState.js';
+import { reportsService } from '@/services/ReportsService.js';
+import Pop from '@/utils/Pop.js';
 import { computed, ref } from 'vue';
 
 const restaurants = computed(() => AppState.restaurants)
@@ -10,18 +12,30 @@ const editableReportData = ref({
   pictureOfDisgust: '',
   restaurantId: 0
 })
+
+async function createReport() {
+  try {
+    await reportsService.createReport(editableReportData.value)
+  }
+  catch (error) {
+    Pop.error(error);
+  }
+}
 </script>
 
 
 <template>
-  <form>
-    <select v-model="editableReportData.restaurantId" class="form-select mb-3" aria-label="Choose A Restaurant"
-      required>
-      <option selected value="0" disabled>Choose a restaurant</option>
-      <option v-for="restaurant in restaurants" :key="restaurant.id" :value="restaurant.id">
-        {{ restaurant.name }}
-      </option>
-    </select>
+  <form @submit.prevent="createReport()">
+    <div class="mb-3">
+      <label for="restaurantId">Choose A Restaurant</label>
+      <select id="restaurantId" v-model="editableReportData.restaurantId" class="form-select "
+        aria-label="Choose A Restaurant" required>
+        <option selected value="0" disabled>Choose a restaurant</option>
+        <option v-for="restaurant in restaurants" :key="restaurant.id" :value="restaurant.id">
+          {{ restaurant.name }}
+        </option>
+      </select>
+    </div>
 
     <div class="mb-3">
       <label for="title" class="form-label">Report Title</label>
