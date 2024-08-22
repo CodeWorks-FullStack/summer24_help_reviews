@@ -4,6 +4,13 @@ import { AppState } from "@/AppState.js"
 import { Restaurant } from "@/models/Restaurant.js"
 
 class RestaurantsService {
+  async getRestaurantsForReports() {
+    const response = await api.get('api/restaurants')
+    logger.log('GOT RESTAURANTS 🍽️🍽️🍽️🍽️🍽️📡', response.data)
+    AppState.restaurantsForReports = response.data
+      .filter(restaurant => restaurant.creatorId != AppState.account.id)
+      .map(restaurantPOJO => new Restaurant(restaurantPOJO))
+  }
   async updateRestaurant(restaurantId, restaurantData) {
     const response = await api.put(`api/restaurants/${restaurantId}`, restaurantData)
     logger.log('UPDATED RESTAURANT ✨🍴', response.data)

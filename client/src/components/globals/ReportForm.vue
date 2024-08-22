@@ -5,7 +5,7 @@ import Pop from '@/utils/Pop.js';
 import { Modal } from 'bootstrap';
 import { computed, ref } from 'vue';
 
-const restaurants = computed(() => AppState.restaurants)
+const restaurants = computed(() => AppState.restaurantsForReports)
 
 const editableReportData = ref({
   title: '',
