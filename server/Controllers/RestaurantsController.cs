@@ -6,11 +6,13 @@ public class RestaurantsController : ControllerBase
 {
   private readonly RestaurantsService _restaurantsService;
   private readonly Auth0Provider _auth0Provider;
+  private readonly ReportsService _reportsService;
 
-  public RestaurantsController(RestaurantsService restaurantsService, Auth0Provider auth0Provider)
+  public RestaurantsController(RestaurantsService restaurantsService, Auth0Provider auth0Provider, ReportsService reportsService)
   {
     _restaurantsService = restaurantsService;
     _auth0Provider = auth0Provider;
+    _reportsService = reportsService;
   }
 
   [HttpGet]
@@ -87,6 +89,20 @@ public class RestaurantsController : ControllerBase
       Account userInfo = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
       string message = _restaurantsService.DestroyRestaurant(restaurantId, userInfo.Id);
       return Ok(message);
+    }
+    catch (Exception exception)
+    {
+      return BadRequest(exception.Message);
+    }
+  }
+
+  [HttpGet("{restaurantId}/reports")]
+  public ActionResult<List<Report>> GetReportsByRestaurantId(int restaurantId)
+  {
+    try
+    {
+      List<Report> reports = _reportsService.GetReportsByRestaurantId(restaurantId);
+      return Ok(reports);
     }
     catch (Exception exception)
     {

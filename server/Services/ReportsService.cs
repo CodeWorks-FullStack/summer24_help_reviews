@@ -2,6 +2,7 @@
 
 
 
+
 namespace help_reviews.Services;
 
 public class ReportsService
@@ -28,4 +29,9 @@ public class ReportsService
     return report;
   }
 
+  internal List<Report> GetReportsByRestaurantId(int restaurantId)
+  {
+    List<Report> reports = _repository.GetReportsByRestaurantId(restaurantId);
+    return reports;
+  }
 }

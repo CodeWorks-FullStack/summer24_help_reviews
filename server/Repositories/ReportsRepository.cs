@@ -25,11 +25,7 @@ public class ReportsRepository : IRepository<Report>
     JOIN accounts ON accounts.id = reports.creatorId
     WHERE reports.id = LAST_INSERT_ID();";
 
-    Report report = _db.Query<Report, Profile, Report>(sql, (report, profile) =>
-    {
-      report.Creator = profile;
-      return report;
-    }, reportData).FirstOrDefault();
+    Report report = _db.Query<Report, Profile, Report>(sql, JoinCreator, reportData).FirstOrDefault();
 
     return report;
   }
@@ -52,6 +48,26 @@ public class ReportsRepository : IRepository<Report>
   public Report Update(Report data)
   {
     throw new NotImplementedException();
+  }
+
+  internal List<Report> GetReportsByRestaurantId(int restaurantId)
+  {
+    string sql = @"
+    SELECT
+    reports.*,
+    accounts.*
+    FROM reports
+    JOIN accounts ON accounts.id = reports.creatorId
+    WHERE reports.restaurantId = @restaurantId;";
+
+    List<Report> reports = _db.Query<Report, Profile, Report>(sql, JoinCreator, new { restaurantId }).ToList();
+    return reports;
+  }
+
+  private Report JoinCreator(Report report, Profile profile)
+  {
+    report.Creator = profile;
+    return report;
   }
 }
 
