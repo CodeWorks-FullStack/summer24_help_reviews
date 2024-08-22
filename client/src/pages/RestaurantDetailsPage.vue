@@ -37,6 +37,22 @@ async function destroyRestaurant(restaurantId) {
     Pop.error(error)
   }
 }
+
+async function updateRestaurant(restaurantId) {
+  try {
+    const wantsToUpdate = await Pop.confirm(`Are you sure that you want to ${restaurant.value.isShutdown ? 'open' : 'shut down'} the ${restaurant.value.name}?`, 'ARE YOU REALLY SURE????', 'Yes I am really sure.', 'question')
+
+    if (!wantsToUpdate) return
+
+
+    const restaurantData = { isShutdown: !restaurant.value.isShutdown }
+
+    await restaurantsService.updateRestaurant(restaurantId, restaurantData)
+  }
+  catch (error) {
+    Pop.error(error);
+  }
+}
 </script>
 
 
@@ -70,7 +86,8 @@ async function destroyRestaurant(restaurantId) {
                 </div>
 
                 <div v-if="restaurant.creatorId == account?.id" class="d-flex gap-3 align-items-center">
-                  <button class="btn fs-4" :class="restaurant.isShutdown ? 'btn-success' : 'btn-warning'">
+                  <button @click="updateRestaurant(restaurant.id)" class="btn fs-4"
+                    :class="restaurant.isShutdown ? 'btn-success' : 'btn-warning'">
                     <i class="mdi" :class="restaurant.isShutdown ? 'mdi-door-open' : 'mdi-door-closed'"></i> {{
                       restaurant.isShutdown ? 'Open' : 'Close' }}
                   </button>
