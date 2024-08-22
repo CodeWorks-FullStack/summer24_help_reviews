@@ -71,7 +71,7 @@ async function updateRestaurant(restaurantId) {
             <img :src="restaurant.imgUrl" alt="Picture of the restaurant" class="cover-img">
             <div class="p-3">
               <p class="mb-5">{{ restaurant.description }}</p>
-              <div class="d-flex justify-content-between">
+              <div class="d-block d-md-flex justify-content-between">
                 <div class="d-flex gap-5">
                   <p class="d-flex align-items-center gap-3">
                     <i class="mdi mdi-account-multiple fs-2 text-success"></i>

@@ -7,7 +7,7 @@ defineProps({ restaurant: { type: Restaurant, required: true } })
 
 <template>
   <RouterLink :to="{ name: 'Restaurant Details', params: { restaurantId: restaurant.id } }">
-    <div class="shadow">
+    <div class="shadow position-relative">
       <img :src="restaurant.imgUrl" alt="Picture of the restaurant">
       <div class="p-3">
         <p class="text-success fs-4"><b>{{ restaurant.name }}</b></p>
@@ -23,6 +23,7 @@ defineProps({ restaurant: { type: Restaurant, required: true } })
           </p>
         </div>
       </div>
+      <i v-if="restaurant.isShutdown" class="mdi mdi-close display-1 text-danger" title="CURRENTLY CLOSED"></i>
     </div>
   </RouterLink>
 </template>
@@ -38,5 +39,11 @@ img {
 a {
   text-decoration: unset;
   color: unset;
+}
+
+.mdi-close {
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 </style>
