@@ -37,4 +37,5 @@ public class ReportsService
     List<Report> reports = _repository.GetReportsByRestaurantId(restaurantId);
     return reports;
   }
+
 }

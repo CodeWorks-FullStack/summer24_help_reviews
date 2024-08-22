@@ -96,7 +96,8 @@ public class RestaurantsRepository : IRepository<Restaurant>
     name = @Name,
     description = @Description,
     imgUrl = @ImgUrl,
-    isShutDown = @IsShutDown
+    isShutDown = @IsShutDown,
+    visits = @Visits
     WHERE id = @Id LIMIT 1;
     
     SELECT

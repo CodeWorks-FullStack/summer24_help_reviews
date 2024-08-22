@@ -55,7 +55,7 @@ public class RestaurantsController : ControllerBase
     try
     {
       Account userInfo = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
-      Restaurant restaurant = _restaurantsService.GetRestaurantById(restaurantId, userInfo?.Id);
+      Restaurant restaurant = _restaurantsService.IncrementVisits(restaurantId, userInfo?.Id);
       return Ok(restaurant);
     }
     catch (Exception exception)

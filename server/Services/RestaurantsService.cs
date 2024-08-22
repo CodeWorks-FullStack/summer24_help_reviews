@@ -72,12 +72,27 @@ public class RestaurantsService
   internal Restaurant GetRestaurantById(int restaurantId, string userId)
   {
     Restaurant restaurant = GetRestaurantById(restaurantId);
-
     // If you aren't the owner of the restaurant and it is shut down
     if (restaurant.CreatorId != userId && restaurant.IsShutdown == true)
     {
       throw new Exception($"No restaurant found with the id of {restaurantId} 😉");
     }
+
+    return restaurant;
+  }
+
+  internal Restaurant IncrementVisits(int restaurantId, string userId)
+  {
+    Restaurant restaurant = GetRestaurantById(restaurantId, userId);
+
+    if (restaurant.IsShutdown == true)
+    {
+      return restaurant;
+    }
+
+    restaurant.Visits++;
+
+    _repository.Update(restaurant);
 
     return restaurant;
   }
