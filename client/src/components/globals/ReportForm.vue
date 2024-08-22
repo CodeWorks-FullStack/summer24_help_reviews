@@ -2,6 +2,7 @@
 import { AppState } from '@/AppState.js';
 import { reportsService } from '@/services/ReportsService.js';
 import Pop from '@/utils/Pop.js';
+import { Modal } from 'bootstrap';
 import { computed, ref } from 'vue';
 
 const restaurants = computed(() => AppState.restaurants)
@@ -16,6 +17,14 @@ const editableReportData = ref({
 async function createReport() {
   try {
     await reportsService.createReport(editableReportData.value)
+    editableReportData.value = {
+      title: '',
+      body: '',
+      pictureOfDisgust: '',
+      restaurantId: 0
+    }
+    Modal.getOrCreateInstance('#reportModal').hide()
+    Pop.success('Report submitted!')
   }
   catch (error) {
     Pop.error(error);

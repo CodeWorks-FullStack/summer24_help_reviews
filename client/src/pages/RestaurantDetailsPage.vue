@@ -3,6 +3,7 @@ import { AppState } from '@/AppState.js';
 import ReportCard from '@/components/globals/ReportCard.vue';
 import { reportsService } from '@/services/ReportsService.js';
 import { restaurantsService } from '@/services/RestaurantsService.js';
+import { logger } from '@/utils/Logger.js';
 import Pop from '@/utils/Pop.js';
 import { computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
@@ -30,7 +31,14 @@ async function getRestaurantById(restaurantId) {
     await restaurantsService.getRestaurantById(restaurantId)
   }
   catch (error) {
-    Pop.error(error);
+    if (error.response.data.includes('😉')) {
+      Pop.toast(error.response.data, 'error');
+      router.push({ name: 'Home' })
+    }
+    else {
+      Pop.toast('An error occurred', 'error')
+    }
+    logger.error(error)
   }
 }
 
