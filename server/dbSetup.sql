@@ -22,6 +22,20 @@ CREATE TABLE
     FOREIGN KEY (creatorId) REFERENCES accounts (id) ON DELETE CASCADE
   );
 
+CREATE TABLE
+  reports (
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    title VARCHAR(255) NOT NULL,
+    body TEXT NOT NULL,
+    pictureOfDisgust VARCHAR(3000),
+    restaurantId INT NOT NULL,
+    creatorId VARCHAR(255) NOT NULL,
+    FOREIGN KEY (restaurantId) REFERENCES restaurants (id) ON DELETE CASCADE,
+    FOREIGN KEY (creatorId) REFERENCES accounts (id) ON DELETE CASCADE
+  );
+
 ALTER TABLE restaurants MODIFY COLUMN visits INT UNSIGNED NOT NULL DEFAULT 0;
 
 SELECT
@@ -33,11 +47,11 @@ INSERT INTO
   restaurants (name, imgUrl, description, isShutdown, creatorId)
 VALUES
   (
-    "Tuna Tuba",
-    "https://images.unsplash.com/photo-1565123409695-7b5ef63a2efb?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "In tuna we trust, in tubas we gust",
-    true,
-    "66bb8ddd637da0ef8d71e1e7"
+    "Spaghetti Spencers",
+    "https://plus.unsplash.com/premium_photo-1664391765043-57f702c4d41d?q=80&w=2264&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "Itsa ketchup",
+    false,
+    "66bb8385904c176f444e8947"
   );
 
 SELECT

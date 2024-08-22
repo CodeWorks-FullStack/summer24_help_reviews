@@ -44,7 +44,6 @@ async function updateRestaurant(restaurantId) {
 
     if (!wantsToUpdate) return
 
-
     const restaurantData = { isShutdown: !restaurant.value.isShutdown }
 
     await restaurantsService.updateRestaurant(restaurantId, restaurantData)
@@ -67,7 +66,7 @@ async function updateRestaurant(restaurantId) {
               <p class="mb-0"><i class="mdi mdi-close-circle"></i> CURRENTLY SHUTDOWN</p>
             </div>
           </div>
-          <div class="bg-light">
+          <div class="bg-light shadow">
             <img :src="restaurant.imgUrl" alt="Picture of the restaurant" class="cover-img">
             <div class="p-3">
               <p class="mb-5">{{ restaurant.description }}</p>
