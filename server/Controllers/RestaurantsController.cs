@@ -97,11 +97,12 @@ public class RestaurantsController : ControllerBase
   }
 
   [HttpGet("{restaurantId}/reports")]
-  public ActionResult<List<Report>> GetReportsByRestaurantId(int restaurantId)
+  public async Task<ActionResult<List<Report>>> GetReportsByRestaurantId(int restaurantId)
   {
     try
     {
-      List<Report> reports = _reportsService.GetReportsByRestaurantId(restaurantId);
+      Account userInfo = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
+      List<Report> reports = _reportsService.GetReportsByRestaurantId(restaurantId, userInfo?.Id);
       return Ok(reports);
     }
     catch (Exception exception)
