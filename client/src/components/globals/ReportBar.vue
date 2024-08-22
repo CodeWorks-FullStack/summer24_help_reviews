@@ -1,5 +1,9 @@
 <script setup>
+import { computed } from 'vue';
 import ReportModal from './ReportModal.vue';
+import { AppState } from '@/AppState.js';
+
+const account = computed(() => AppState.account)
 </script>
 
 
@@ -10,7 +14,7 @@ import ReportModal from './ReportModal.vue';
       alt="Best mouse logo ever">
     <div class="text-center">
       <p class="fs-1 text-success"><b>Help Reviews</b></p>
-      <button class="btn btn-success rounded-pill text-light w-100 fs-2" data-bs-toggle="modal"
+      <button v-if="account" class="btn btn-success rounded-pill text-light w-100 fs-2" data-bs-toggle="modal"
         data-bs-target="#reportModal">REPORT!</button>
     </div>
   </div>

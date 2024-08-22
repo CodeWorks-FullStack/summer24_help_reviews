@@ -1,5 +1,6 @@
 <script setup>
 import { AppState } from '@/AppState.js';
+import { reportsService } from '@/services/ReportsService.js';
 import { restaurantsService } from '@/services/RestaurantsService.js';
 import Pop from '@/utils/Pop.js';
 import { computed, watch } from 'vue';
@@ -14,13 +15,25 @@ const restaurant = computed(() => AppState.activeRestaurant)
 const account = computed(() => AppState.account)
 
 watch(() => route.params.restaurantId, () => {
+
   getRestaurantById(route.params.restaurantId)
+  getReportsByRestaurantId(route.params.restaurantId)
+
 }, { immediate: true })
 
 
 async function getRestaurantById(restaurantId) {
   try {
     await restaurantsService.getRestaurantById(restaurantId)
+  }
+  catch (error) {
+    Pop.error(error);
+  }
+}
+
+async function getReportsByRestaurantId(restaurantId) {
+  try {
+    await reportsService.getReportsByRestaurantId(restaurantId)
   }
   catch (error) {
     Pop.error(error);
