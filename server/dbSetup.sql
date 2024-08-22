@@ -60,3 +60,23 @@ SELECT
 FROM
   restaurants r
   JOIN accounts a;
+
+SELECT
+  restaurants.*,
+  COUNT(reports.id) AS reportCount
+FROM
+  restaurants
+  LEFT JOIN reports ON reports.restaurantId = restaurants.id
+GROUP BY
+  (restaurants.id);
+
+SELECT
+  restaurants.*,
+  COUNT(reports.id) AS reportCount,
+  accounts.*
+FROM
+  restaurants
+  JOIN accounts ON accounts.id = restaurants.creatorId
+  LEFT JOIN reports ON reports.restaurantId = restaurants.id
+GROUP BY
+  (restaurants.id);

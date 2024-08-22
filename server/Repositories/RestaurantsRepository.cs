@@ -60,10 +60,13 @@ public class RestaurantsRepository : IRepository<Restaurant>
     string sql = @"
     SELECT
     restaurants.*,
+    COUNT(reports.id) AS reportCount,
     accounts.*
     FROM restaurants
     JOIN accounts ON accounts.id = restaurants.creatorId
-    WHERE restaurants.isShutdown = false OR restaurants.creatorId = @userId;";
+    LEFT JOIN reports ON reports.restaurantId = restaurants.id
+    WHERE restaurants.isShutdown = false OR restaurants.creatorId = @userId
+    GROUP BY (restaurants.id);";
 
     List<Restaurant> restaurants = _db.Query<Restaurant, Profile, Restaurant>(sql, JoinCreator, new { userId }).ToList();
 
