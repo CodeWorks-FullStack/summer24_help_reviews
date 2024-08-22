@@ -103,7 +103,7 @@ async function updateRestaurant(restaurantId) {
                   </p>
                   <p class="d-flex align-items-center gap-3">
                     <i class="mdi mdi-file-multiple fs-2 text-success"></i>
-                    <b>0</b>
+                    <b>{{ reports.length }}</b>
                     <span>reports</span>
                   </p>
                 </div>

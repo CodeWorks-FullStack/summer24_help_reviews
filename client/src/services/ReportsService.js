@@ -15,11 +15,16 @@ class ReportsService {
     logger.log('CREATED REPORT 🍕🍕🍕🍕', response.data)
     const report = new Report(response.data)
 
-    if (report.restaurantId != AppState.activeRestaurant?.id) {
-      return
+    if (report.restaurantId == AppState.activeRestaurant?.id) {
+      AppState.reports.push(report)
     }
 
-    AppState.reports.push(report)
+    const restaurantThatReceivedReport = AppState.restaurants.find(restaurant => restaurant.id == report.restaurantId)
+
+    if (restaurantThatReceivedReport) {
+      restaurantThatReceivedReport.reportCount++
+    }
+
   }
 }
 
