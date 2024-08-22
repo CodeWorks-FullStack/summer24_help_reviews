@@ -11,6 +11,7 @@ export class Restaurant extends DatabaseItem {
     this.isShutdown = data.isShutdown
     this.creatorId = data.creatorId
     this.creator = new Profile(data.creator)
+    this.reportCount = data.reportCount
   }
 }
 

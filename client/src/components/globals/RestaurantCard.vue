@@ -19,7 +19,7 @@ defineProps({ restaurant: { type: Restaurant, required: true } })
           </p>
           <p class="mb-0 d-flex align-items-center">
             <Icon name="file" class="fs-1 text-success" />
-            0 reports
+            {{ restaurant.reportCount }} reports
           </p>
         </div>
       </div>
