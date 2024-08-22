@@ -1,10 +1,15 @@
 <script setup>
+import { AppState } from '@/AppState.js';
 import { restaurantsService } from '@/services/RestaurantsService.js';
 import Pop from '@/utils/Pop.js';
-import { watch } from 'vue';
+import { computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
 const route = useRoute()
+
+const restaurant = computed(() => AppState.activeRestaurant)
+
+const account = computed(() => AppState.account)
 
 watch(() => route.params.restaurantId, () => {
   getRestaurantById(route.params.restaurantId)
@@ -23,8 +28,66 @@ async function getRestaurantById(restaurantId) {
 
 
 <template>
-  <h1>Restaurant details page</h1>
+  <div v-if="restaurant" class="container-fluid">
+    <section class="row">
+      <div class="col-12">
+        <div class="p-5">
+          <div class="d-flex justify-content-between">
+            <h1 class="text-success">{{ restaurant.name }}</h1>
+            <div v-if="restaurant.isShutdown" class="bg-danger text-light fs-2 px-3">
+              <p class="mb-0"><i class="mdi mdi-close-circle"></i> CURRENTLY SHUTDOWN</p>
+            </div>
+          </div>
+          <div class="bg-light">
+            <img :src="restaurant.imgUrl" alt="Picture of the restaurant" class="cover-img">
+            <div class="p-3">
+              <p class="mb-5">{{ restaurant.description }}</p>
+              <div class="d-flex justify-content-between">
+                <div class="d-flex gap-5">
+                  <p class="d-flex align-items-center gap-3">
+                    <i class="mdi mdi-account-multiple fs-2 text-success"></i>
+                    <b>{{ restaurant.visits }}</b>
+                    <span>recent visits</span>
+                  </p>
+                  <p class="d-flex align-items-center gap-3">
+                    <i class="mdi mdi-file-multiple fs-2 text-success"></i>
+                    <b>0</b>
+                    <span>reports</span>
+                  </p>
+                </div>
+
+                <div v-if="restaurant.creatorId == account?.id" class="d-flex gap-3 align-items-center">
+                  <button class="btn fs-4" :class="restaurant.isShutdown ? 'btn-success' : 'btn-warning'">
+                    <i class="mdi" :class="restaurant.isShutdown ? 'mdi-door-open' : 'mdi-door-closed'"></i> {{
+                      restaurant.isShutdown ? 'Open' : 'Close' }}
+                  </button>
+                  <button class="btn btn-danger fs-4">
+                    <i class="mdi mdi-delete-forever"></i> Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div v-else class="container-fluid">
+    <section class="row">
+      <div class="col-12">
+        <div class="p-2 text-center">
+          <h1>Loading... <i v-for="icon in 7" :key="icon" class="mdi mdi-silverware-spoon mdi-spin"></i></h1>
+        </div>
+      </div>
+    </section>
+  </div>
 </template>
 
 
-<style scoped></style>
+<style scoped>
+.cover-img {
+  width: 100%;
+  height: 50dvh;
+  object-fit: cover;
+}
+</style>

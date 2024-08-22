@@ -5,8 +5,10 @@ import { Restaurant } from "@/models/Restaurant.js"
 
 class RestaurantsService {
   async getRestaurantById(restaurantId) {
+    AppState.activeRestaurant = null
     const response = await api.get(`api/restaurants/${restaurantId}`)
     logger.log('GOT RESTAURANT BY ID 🍽️📡🥪', response.data)
+    AppState.activeRestaurant = new Restaurant(response.data)
   }
   async getRestaurants() {
     const response = await api.get('api/restaurants')
