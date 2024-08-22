@@ -21,7 +21,7 @@ public class RestaurantsController : ControllerBase
     {
       Account userInfo = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
       // NOTE elvis operator is necessary if this is not an authorized route
-      List<Restaurant> restaurants = _restaurantsService.GetRestaurants(userInfo?.Id);
+      List<Restaurant> restaurants = _restaurantsService.GetAllRestaurants(userInfo?.Id);
       return Ok(restaurants);
     }
     catch (Exception exception)

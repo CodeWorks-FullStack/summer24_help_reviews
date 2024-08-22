@@ -3,6 +3,7 @@ using help_reviews.Interfaces;
 
 namespace help_reviews.Repositories;
 
+
 public class RestaurantsRepository : IRepository<Restaurant>
 {
   private readonly IDbConnection _db;
@@ -51,19 +52,9 @@ public class RestaurantsRepository : IRepository<Restaurant>
 
   public List<Restaurant> GetAll()
   {
-    string sql = @"
-    SELECT
-    restaurants.*,
-    accounts.*
-    FROM restaurants
-    JOIN accounts ON accounts.id = restaurants.creatorId
-    WHERE restaurants.isShutdown = false;";
-
-    List<Restaurant> restaurants = _db.Query<Restaurant, Profile, Restaurant>(sql, JoinCreator).ToList();
-
-    return restaurants;
+    throw new NotImplementedException();
   }
-  // NOTE this is an overload. if no string is passed to getAll, the above method runs. If a string is passed, the below method runs
+
   internal List<Restaurant> GetAll(string userId)
   {
     string sql = @"
@@ -123,5 +114,6 @@ public class RestaurantsRepository : IRepository<Restaurant>
     restaurant.Creator = profile;
     return restaurant;
   }
+
 }
 

@@ -31,30 +31,10 @@ public class RestaurantsService
     return $"{restaurantToDestroy.Name} has been deleted!";
   }
 
-  private List<Restaurant> GetAllOpenRestaurants()
-  {
-    List<Restaurant> restaurants = _repository.GetAll();
-    return restaurants;
-  }
-
-  private List<Restaurant> GetAllRestaurants(string userId)
+  public List<Restaurant> GetAllRestaurants(string userId)
   {
     List<Restaurant> restaurants = _repository.GetAll(userId);
     return restaurants;
-  }
-
-
-  internal List<Restaurant> GetRestaurants(string userId)
-  {
-    // if the user is not logged in
-    if (userId == null)
-    {
-      // NOTE the sql does not return shutdown restaurants
-      return GetAllOpenRestaurants();
-    }
-
-    // if the user is logged in
-    return GetAllRestaurants(userId);
   }
 
 
