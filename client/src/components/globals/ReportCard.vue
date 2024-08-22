@@ -8,15 +8,15 @@ defineProps({ report: { type: Report, required: true } })
 <template>
   <div class="container bg-light shadow p-3">
     <div class="row justify-content-end mb-3">
-      <div v-if="report.pictureOfDisgust" class="col-4 text-center">
+      <div v-if="report.pictureOfDisgust" class="col-12 col-md-4 text-center order-3 order-md-0">
         <a :href="report.pictureOfDisgust" target="_blank">
           <img class="img-of-disgust" :src="report.pictureOfDisgust" alt="Probably some gross looking food">
         </a>
       </div>
-      <div class="col-4">
+      <div class="col-6 col-md-4">
         <p class="text-success text-center fs-4"><b>"{{ report.title }}"</b></p>
       </div>
-      <div class="col-4 d-flex justify-content-end">
+      <div class="col-6 col-md-4 d-flex justify-content-end">
         <div class="d-flex gap-2">
           <div class="text-end">
             <p class="mb-1"><b>{{ report.creator.name }}</b></p>
