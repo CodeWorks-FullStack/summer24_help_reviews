@@ -117,10 +117,10 @@ async function updateRestaurant(restaurantId) {
       </div>
     </section>
     <section class="row">
-      <div class="col-12">
+      <div class="col-12 mb-3">
         <h2>Reports for <span class="text-success">{{ restaurant.name }}</span></h2>
       </div>
-      <div v-for="report in reports" :key="report.id" class="col-12">
+      <div v-for="report in reports" :key="report.id" class="col-12 mb-3">
         <ReportCard :report="report" />
       </div>
     </section>
@@ -129,7 +129,9 @@ async function updateRestaurant(restaurantId) {
     <section class="row">
       <div class="col-12">
         <div class="p-2 text-center">
-          <h1>Loading... <i v-for="icon in 7" :key="icon" class="mdi mdi-silverware-spoon mdi-spin"></i></h1>
+          <h1>Loading...
+            <i v-for="icon in 7" :key="icon" class="mdi mdi-silverware-spoon mdi-spin"></i>
+          </h1>
         </div>
       </div>
     </section>
