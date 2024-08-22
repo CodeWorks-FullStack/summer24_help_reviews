@@ -3,9 +3,11 @@ import { AppState } from '@/AppState.js';
 import { restaurantsService } from '@/services/RestaurantsService.js';
 import Pop from '@/utils/Pop.js';
 import { computed, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
 const route = useRoute()
+
+const router = useRouter()
 
 const restaurant = computed(() => AppState.activeRestaurant)
 
@@ -22,6 +24,17 @@ async function getRestaurantById(restaurantId) {
   }
   catch (error) {
     Pop.error(error);
+  }
+}
+
+async function destroyRestaurant(restaurantId) {
+  try {
+    const wantsToDestroy = await Pop.confirm(`Are you sure that you want to close down ${restaurant.value.name}?`)
+    if (!wantsToDestroy) return
+    await restaurantsService.destroyRestaurant(restaurantId)
+    router.push({ name: 'Home' })
+  } catch (error) {
+    Pop.error(error)
   }
 }
 </script>
@@ -61,7 +74,7 @@ async function getRestaurantById(restaurantId) {
                     <i class="mdi" :class="restaurant.isShutdown ? 'mdi-door-open' : 'mdi-door-closed'"></i> {{
                       restaurant.isShutdown ? 'Open' : 'Close' }}
                   </button>
-                  <button class="btn btn-danger fs-4">
+                  <button @click="destroyRestaurant(restaurant.id)" class="btn btn-danger fs-4">
                     <i class="mdi mdi-delete-forever"></i> Delete
                   </button>
                 </div>

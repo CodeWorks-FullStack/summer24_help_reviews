@@ -4,6 +4,11 @@ import { AppState } from "@/AppState.js"
 import { Restaurant } from "@/models/Restaurant.js"
 
 class RestaurantsService {
+  async destroyRestaurant(restaurantId) {
+    const response = await api.delete(`api/restaurants/${restaurantId}`)
+    logger.log('DESTROYED RESTAURANT 🥪💥', response.data)
+    AppState.activeRestaurant = null
+  }
   async getRestaurantById(restaurantId) {
     AppState.activeRestaurant = null
     const response = await api.get(`api/restaurants/${restaurantId}`)
