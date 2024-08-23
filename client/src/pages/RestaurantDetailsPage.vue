@@ -31,14 +31,10 @@ async function getRestaurantById(restaurantId) {
     await restaurantsService.getRestaurantById(restaurantId)
   }
   catch (error) {
+    Pop.meow(error)
     if (error.response.data.includes('😉')) {
-      Pop.toast(error.response.data, 'error');
       router.push({ name: 'Home' })
     }
-    else {
-      Pop.toast('An error occurred', 'error')
-    }
-    logger.error(error)
   }
 }
 
@@ -47,7 +43,7 @@ async function getReportsByRestaurantId(restaurantId) {
     await reportsService.getReportsByRestaurantId(restaurantId)
   }
   catch (error) {
-    Pop.error(error);
+    Pop.meow(error);
   }
 }
 
@@ -103,6 +99,7 @@ async function updateRestaurant(restaurantId) {
                   </p>
                   <p class="d-flex align-items-center gap-3">
                     <i class="mdi mdi-file-multiple fs-2 text-success"></i>
+                    <!-- NOTE easier to do this here rather than another sql count -->
                     <b>{{ reports.length }}</b>
                     <span>reports</span>
                   </p>

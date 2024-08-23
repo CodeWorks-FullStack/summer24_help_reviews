@@ -85,6 +85,7 @@ public class RestaurantsService
   {
     Restaurant restaurant = GetRestaurantById(restaurantId, userId);
 
+    // NOTE if the restaurant is shut down, don't increment the visits
     if (restaurant.IsShutdown == true)
     {
       return restaurant;

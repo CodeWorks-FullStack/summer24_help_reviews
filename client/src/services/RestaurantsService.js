@@ -7,6 +7,7 @@ class RestaurantsService {
   async getRestaurantsForReports() {
     const response = await api.get('api/restaurants')
     logger.log('GOT RESTAURANTS 🍽️🍽️🍽️🍽️🍽️📡', response.data)
+    // NOTE it would be really nice if there was an endpoint on the backend that handled all of this filtering for me 😉
     AppState.restaurantsForReports = response.data
       .filter(restaurant => restaurant.creatorId != AppState.account.id)
       .map(restaurantPOJO => new Restaurant(restaurantPOJO))

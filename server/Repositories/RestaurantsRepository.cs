@@ -57,6 +57,10 @@ public class RestaurantsRepository : IRepository<Restaurant>
 
   internal List<Restaurant> GetAll(string userId)
   {
+    // NOTE COUNT is a sql function that can count rows/columns
+    // NOTE AS creates a virtual column on the returned rows, and it adds it to the end of each restaurant row because of the placement in the sql statement
+    // NOTE LEFT JOIN will join rows from another table irregardless of wether there is a match on the JOIN statement (not every restaurant has reports)
+    // NOTE GROUP BY will summarize the LEFT JOINED rows
     string sql = @"
     SELECT
     restaurants.*,

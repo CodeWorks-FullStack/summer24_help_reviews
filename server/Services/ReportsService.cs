@@ -31,7 +31,7 @@ public class ReportsService
 
   internal List<Report> GetReportsByRestaurantId(int restaurantId, string userId)
   {
-    // Just need the checks to run in the other service
+    // Just need the checks to run in the other service (is it shut down / are you the creator)
     _restaurantsService.GetRestaurantById(restaurantId, userId);
 
     List<Report> reports = _repository.GetReportsByRestaurantId(restaurantId);
